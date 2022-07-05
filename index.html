@@ -136,7 +136,7 @@ separator [c] = [[~{c}]]
   //////////////
 
   
-  const emitterfmt = String.raw`
+  const jsonfmt = String.raw`
 text [@macro] = [[\n{ onenter:\n[~{macro}true]\n}\n]]
 
 macro [x] = [[~{x}]]
@@ -167,10 +167,42 @@ period [c] = [[]]
 separator [c] = [[]]
 
 `;
+  const lispfmt = String.raw`
+text [@macro] = [[\n(onenter\n~{macro})]]
+
+macro [x] = [[~{x}]]
+  
+ShowPhrase [kShow filename kat Coordinate] = [[\n(image "~{filename}" ~{Coordinate})]]
+MovePhrase [kMove filename kto Coordinate TimeSpan] = [[\n(moveto "~{filename}" "???" ~{Coordinate}~{TimeSpan} easin)]]
+WaitPhrase [kWait number kframes] = [[\n(wait ~{number})]]
+FadeToBlackPhrase [kFade kto kblack TimeSpan] = [[\n(fadeout ~{TimeSpan})]]
+JumpPhrase [kJump ChapterName] = [[\n(jump "~{ChapterName}")]]
+lex_CHELNAspoken [kCHELNA @spaces Spoken] = [[\n(say "CHEL:NA" "~{Spoken}")]]
+lex_MEspoken [kME @spaces Spoken] = [[\n(say "ME" "~{Spoken}")]]
+lex_RADIOspoken [kRADIO @spaces Spoken] = [[\n(say "RADIO" "~{Spoken}")]]
+
+Coordinate [number1 kx number2] = [[~{number1} ~{number2}]]
+TimeSpan [kover number kframes] = [[~{number}]]
+ChapterName [name] = [[~{name}]]
+filename [name] = [[~{name}]]
+
+spoken [@cs] = [[~{cs}]]
+spokenchar [c] = [[~{c}]]
+
+name [nameFirst @nameRest] = [[~{nameFirst}~{nameRest}]]
+nameFirst [letter] = [[~{letter}]]
+nameRest [c] = [[~{c}]]
+number [@kminus @digit] = [[~{kminus}~{digit}]]
+
+period [c] = [[]]
+separator [c] = [[]]
+
+`;
 
   // use identityfmt if you want to see how I early-debugged the mechanisms
   // const fmt = identityfmt;
-  const fmt = emitterfmt;
+  // const fmt = jsonfmt;
+  const fmt = lispfmt;
 
   function transpile1 (src, grammar, fmt, message) {
       var success = false;

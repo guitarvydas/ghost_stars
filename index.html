@@ -39,7 +39,9 @@ over 300 frames. Wait 150 frames.
 <br>
 <p id="status" > READY </p>
 <br>
-<button onclick="transpile ()">Test</button>
+<button onclick="transpileJSON ()">Transpile<br>to<br>JSON</button>
+<button onclick="transpileLisp ()">Transpile<br>to<br>Lisp</button>
+<button onclick="transpileIdentity ()">Transpile<br>Identity<br>(ignore)</button>
 <!-- Ohm-JS -->
 <script src="https://unpkg.com/ohm-js@16/dist/ohm.min.js"></script>
 
@@ -55,7 +57,7 @@ over 300 frames. Wait 150 frames.
   }
 
   const grammar = String.raw`
-OOFOE {
+GhostStarts {
 text = macro+
 
 macro = 
@@ -199,11 +201,6 @@ separator [c] = [[]]
 
 `;
 
-  // use identityfmt if you want to see how I early-debugged the mechanisms
-  // const fmt = identityfmt;
-  // const fmt = jsonfmt;
-  const fmt = lispfmt;
-
   function transpile1 (src, grammar, fmt, message) {
       var success = false;
       var transpiled = '';
@@ -224,8 +221,9 @@ separator [c] = [[]]
   var transpileSuccess;
   var errorMessages = '';
   
-  function transpile () {
+  function transpile (fmt) {
       transpileSuccess = true;
+      document.getElementById('output').innerHTML = '';
       let src = document.getElementById('src').value;
       let [success, transpiled] = transpile1 (src, grammar, fmt, "transpile1");
       transpileSuccess &&= success;
@@ -238,6 +236,20 @@ separator [c] = [[]]
       }
   }
   
+  function transpileIdentity () {
+      // first step in building a fmt specification: output=input
+      transpile (identityfmt);
+  }
+
+  function transpileJSON () {
+      transpile (jsonfmt);
+  }
+  
+  function transpileLisp () {
+      transpile (lispfmt);
+  }
+  
+
   function transpilerError (message) {
       errorMessages += '\n' + message;
       transpileSuccess = false;

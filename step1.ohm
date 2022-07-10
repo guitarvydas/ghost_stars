@@ -1,0 +1,4 @@
+Ghost_Stars {
+top = char+
+char = any
+}

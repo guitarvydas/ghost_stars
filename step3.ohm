@@ -1,0 +1,13 @@
+Ghost_Stars {
+top =
+  | applySyntactic<ShowPhrase> top?
+  | char top?
+ShowPhrase = "Show" filename "at" Coordinate
+Coordinate = number "x" number
+number = "-"? digit+
+filename = name
+name = nameFirst nameRest*
+nameFirst = letter
+nameRest = "_" | digit | nameFirst
+char = any
+}

@@ -1,0 +1,1 @@
+Show prolog_bg at 0x-550.

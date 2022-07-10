@@ -89,3 +89,6 @@ Hack on the specification in lispfmt.  Click on "Transpile to Lisp"
 
 # N.B. 
 There is a 3rd option "Transpile Identity" which produces output that mimics the input (modulo some missing spaces in unimportant places). I used the Identity Transform as a preliminary sanity check of the scaffolding needed to build JSON and Lisp fmt specifications.  I recommend starting this way, since there are many moving pieces which invite typos.  Once an identity specification has been created, it is easy to hack on it to emit code in various languages. 
+
+# Ref
+[ghost-stars](https://oofoe.itch.io/ghost-stars)

@@ -1,7 +1,8 @@
 Ghost_Stars {
-top =
-  | applySyntactic<ShowPhrase> top?
-  | char top?
+text = macro+
+macro =
+  | applySyntactic<ShowPhrase>
+  | char
 ShowPhrase = "Show" filename "at" Coordinate
 Coordinate = number "x" number
 number = "-"? digit+

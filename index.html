@@ -57,7 +57,7 @@ over 300 frames. Wait 150 frames.
   }
 
   const grammar = String.raw`
-GhostStarts {
+GhostStars {
 text = macro+
 
 macro = 
@@ -108,11 +108,11 @@ text [@macro] = [[~{macro}]]
 
 macro [x] = [[~{x}]]
   
-ShowPhrase [kShow filename kat Coordinate kperiod] = [[~{kShow}~{filename}~{kat}~{Coordinate}~{kperiod}]]
-MovePhrase [kMove filename kto Coordinate TimeSpan kperiod] = [[~{kMove}~{filename}~{kto}~{Coordinate}~{TimeSpan}~{kperiod}]]
-WaitPhrase [kWait number kframes kperiod] = [[~{kWait}~{number}~{kframes}~{kperiod}]]
-FadeToBlackPhrase [kFade kto kblack TimeSpan kperiod] = [[~{kFade}~{kto}~{kblack}~{TimeSpan}~{kperiod}]]
-JumpPhrase [kJump ChapterName kperiod] = [[~{kJump}~{ChapterName}~{kperiod}]]
+ShowPhrase [kShow filename kat Coordinate] = [[~{kShow}~{filename}~{kat}~{Coordinate}]]
+MovePhrase [kMove filename kto Coordinate TimeSpan] = [[~{kMove}~{filename}~{kto}~{Coordinate}~{TimeSpan}]]
+WaitPhrase [kWait number kframes] = [[~{kWait}~{number}~{kframes}]]
+FadeToBlackPhrase [kFade kto kblack TimeSpan] = [[~{kFade}~{kto}~{kblack}~{TimeSpan}]]
+JumpPhrase [kJump ChapterName] = [[~{kJump}~{ChapterName}]]
 lex_CHELNAspoken [kCHELNA @spaces Spoken] = [[~{kCHELNA}~{spaces}~{Spoken}]]
 lex_MEspoken [kME @spaces Spoken] = [[~{kME}~{spaces}~{Spoken}]]
 lex_RADIOspoken [kRADIO @spaces Spoken] = [[~{kRADIO}~{spaces}~{Spoken}]]

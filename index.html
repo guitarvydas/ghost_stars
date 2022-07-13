@@ -66,9 +66,7 @@ macro =
   | applySyntactic<WaitPhrase>
   | applySyntactic<FadeToBlackPhrase>
   | applySyntactic<JumpPhrase>
-  | lex_CHELNAspoken
-  | lex_MEspoken
-  | lex_RADIOspoken
+  | lex_spoken
   | period
   | separator
   | any
@@ -78,9 +76,13 @@ MovePhrase = "Move" filename "to" Coordinate TimeSpan
 WaitPhrase = "Wait" number "frames"
 FadeToBlackPhrase = "Fade" "to" "black" TimeSpan
 JumpPhrase = "Jump" ChapterName
-lex_CHELNAspoken = "CHEL:NA" space* spoken
-lex_MEspoken = "ME" space* spoken
-lex_RADIOspoken = "RADIO" space* spoken
+
+lex_spoken = speaker spoken
+
+speaker = speakerSpaces name
+speakerSpaces = 
+  | nl "                    " -- spaces20
+  | nl tab tab "    "         -- tabtabspaces4
 
 Coordinate = number "x" number
 TimeSpan = "over" number "frames"
@@ -95,8 +97,11 @@ separator = "❖"
 
 name = nameFirst nameRest*
 nameFirst = letter
-nameRest = "_" | digit | nameFirst
+nameRest = "_" | ":" | digit | nameFirst
 number = "-"? digit+
+
+nl = "\n"
+tab = "\t"
 }
 `;
 
@@ -113,9 +118,11 @@ MovePhrase [kMove filename kto Coordinate TimeSpan] = [[~{kMove}~{filename}~{kto
 WaitPhrase [kWait number kframes] = [[~{kWait}~{number}~{kframes}]]
 FadeToBlackPhrase [kFade kto kblack TimeSpan] = [[~{kFade}~{kto}~{kblack}~{TimeSpan}]]
 JumpPhrase [kJump ChapterName] = [[~{kJump}~{ChapterName}]]
-lex_CHELNAspoken [kCHELNA @spaces Spoken] = [[~{kCHELNA}~{spaces}~{Spoken}]]
-lex_MEspoken [kME @spaces Spoken] = [[~{kME}~{spaces}~{Spoken}]]
-lex_RADIOspoken [kRADIO @spaces Spoken] = [[~{kRADIO}~{spaces}~{Spoken}]]
+lex_spoken [speaker spoken] = [[~{speaker}~{spoken}]]
+
+speaker [speakerSpaces name] = [[~{speakerSpaces}~{name}]]
+speakerSpaces_spaces20 [nl spaces] = [[~{nl}~{spaces}]]
+speakerSpaces_tabtabspaces4 [nl tab1 tab2 spaces4] = [[~{nl}~{tab1}~{tab2}~{spaces4}]]
 
 Coordinate [number1 kx number2] = [[~{number1}~{kx}~{number2}]]
 TimeSpan [kover number kframes] = [[~{kover}~{number}~{kframes}]]
@@ -148,9 +155,10 @@ MovePhrase [kMove filename kto Coordinate TimeSpan] = [[\n["moveto","~{filename}
 WaitPhrase [kWait number kframes] = [[\n["wait",~{number}],]]
 FadeToBlackPhrase [kFade kto kblack TimeSpan] = [[\n["fadeout",~{TimeSpan}],]]
 JumpPhrase [kJump ChapterName] = [[\n["jump","~{ChapterName}"],]]
-lex_CHELNAspoken [kCHELNA @spaces Spoken] = [[\n["say","CHEL:NA","~{Spoken}"],]]
-lex_MEspoken [kME @spaces Spoken] = [[\n["say","ME","~{Spoken}"],]]
-lex_RADIOspoken [kRADIO @spaces Spoken] = [[\n["say","RADIO","~{Spoken}"],]]
+lex_spoken [speaker spoken] = [[\n["say","~{speaker}~{spoken}"],]]
+speaker [speakerSpaces name] = [[~{speakerSpaces}~{name}]]
+speakerSpaces_spaces20 [nl spaces] = [[                    ]]
+speakerSpaces_tabtabspaces4 [nl tab1 tab2 spaces4] = [[                    ]]
 
 Coordinate [number1 kx number2] = [[~{number1},~{number2}]]
 TimeSpan [kover number kframes] = [[~{number}]]
@@ -179,9 +187,10 @@ MovePhrase [kMove filename kto Coordinate TimeSpan] = [[\n(moveto "~{filename}" 
 WaitPhrase [kWait number kframes] = [[\n(wait ~{number})]]
 FadeToBlackPhrase [kFade kto kblack TimeSpan] = [[\n(fadeout ~{TimeSpan})]]
 JumpPhrase [kJump ChapterName] = [[\n(jump "~{ChapterName}")]]
-lex_CHELNAspoken [kCHELNA @spaces Spoken] = [[\n(say "CHEL:NA" "~{Spoken}")]]
-lex_MEspoken [kME @spaces Spoken] = [[\n(say "ME" "~{Spoken}")]]
-lex_RADIOspoken [kRADIO @spaces Spoken] = [[\n(say "RADIO" "~{Spoken}")]]
+lex_spoken [speaker spoken] = [[\n["say","~{speaker}~{spoken}"]]
+speaker [speakerSpaces name] = [[~{speakerSpaces}~{name}]]
+speakerSpaces_spaces20 [nl spaces] = [[                    ]]
+speakerSpaces_tabtabspaces4 [nl tab1 tab2 spaces4] = [[                    ]]
 
 Coordinate [number1 kx number2] = [[~{number1} ~{number2}]]
 TimeSpan [kover number kframes] = [[~{number}]]

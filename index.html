@@ -56,6 +56,19 @@ over 300 frames. Wait 150 frames.
           .replace (/~{/g, '${');
   }
 
+  const noopgrammar = String.raw`
+Noop {
+text = any+
+}
+`;
+  
+  const grammarB = String.raw`
+Noop {
+text = macro+
+macro = any
+}
+`;
+  
   const grammar = String.raw`
 GhostStars {
 text = macro+
@@ -149,6 +162,14 @@ separator [c] = [[~{c}]]
   // end identity transform
   //////////////
 
+  const noopfmt = String.raw`
+text [@c] = [[~{c}]]
+`;
+  
+  const fmtB = String.raw`
+text [@x] = [[~{x}]]
+macro [x] = [[~{x}]]
+`;
   
   const jsonfmt = String.raw`
 text [@macro] = [[\n{ onenter:\n[~{macro}true]\n}\n]]
@@ -241,11 +262,7 @@ separator [c] = [[]]
   var transpileSuccess;
   var errorMessages = '';
   
-  function transpile (fmt) {
-      transpileSuccess = true;
-      document.getElementById('output').innerHTML = '';
-      let src = document.getElementById('src').value;
-      let [success, transpiled] = transpile1 (src, grammar, fmt, "transpile1");
+  function finalize (success, transpiled) {
       transpileSuccess &&= success;
       if (transpileSuccess) {
           document.getElementById('status').innerHTML = "OK " + Date ();
@@ -262,7 +279,21 @@ separator [c] = [[]]
   // }
 
   function transpileJSON () {
-      transpile (jsonfmt);
+      transpileSuccess = true;
+      document.getElementById('output').innerHTML = '';
+      let src = document.getElementById('src').value;
+      let [successA, transpiledA] = transpile1 (src, noopgrammar, noopfmt, "transpile A");
+      if (successA) {
+	  let [successB, transpiledB] = transpile1 (transpiledA, grammarB, fmtB, "transpile B");
+	  if (successB) {
+	      let [success, transpiled] = transpile1 (transpiledB, grammar, jsonfmt, "transpile C");
+	      finalize (success, transpiled);
+	  } else {
+	      finalize (successB, transpiledB);
+	  }
+      } else {
+	  finalize (successA, transpiledA);
+      }
   }
   
   // function transpileLisp () {

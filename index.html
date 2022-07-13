@@ -69,6 +69,7 @@ macro =
   | lex_spoken
   | period
   | separator
+  | nls
   | any
   
 ShowPhrase = "Show" filename "at" Coordinate
@@ -81,8 +82,8 @@ lex_spoken = speaker spoken
 
 speaker = speakerSpaces name
 speakerSpaces = 
-  | nl "                    " -- spaces20
-  | nl tab tab "    "         -- tabtabspaces4
+  | "                    " -- spaces20
+  | tab tab "    "         -- tabtabspaces4
 
 Coordinate = number "x" number
 TimeSpan = "over" number "frames"
@@ -100,6 +101,7 @@ nameFirst = letter
 nameRest = "_" | ":" | digit | nameFirst
 number = "-"? digit+
 
+nls = nl+
 nl = "\n"
 tab = "\t"
 }
@@ -121,8 +123,8 @@ JumpPhrase [kJump ChapterName] = [[~{kJump}~{ChapterName}]]
 lex_spoken [speaker spoken] = [[~{speaker}~{spoken}]]
 
 speaker [speakerSpaces name] = [[~{speakerSpaces}~{name}]]
-speakerSpaces_spaces20 [nl spaces] = [[~{nl}~{spaces}]]
-speakerSpaces_tabtabspaces4 [nl tab1 tab2 spaces4] = [[~{nl}~{tab1}~{tab2}~{spaces4}]]
+speakerSpaces_spaces20 [spaces] = [[~{spaces}]]
+speakerSpaces_tabtabspaces4 [tab1 tab2 spaces4] = [[~{tab1}~{tab2}~{spaces4}]]
 
 Coordinate [number1 kx number2] = [[~{number1}~{kx}~{number2}]]
 TimeSpan [kover number kframes] = [[~{kover}~{number}~{kframes}]]
@@ -137,6 +139,9 @@ nameFirst [letter] = [[~{letter}]]
 nameRest [c] = [[~{c}]]
 number [@kminus @digit] = [[~{kminus}~{digit}]]
 
+nls [@cs] = [[~{cs}]]
+nl [c] = [[~{c}]]
+tab [c] = [[~{c}]]
 period [c] = [[~{c}]]
 separator [c] = [[~{c}]]
 `;
@@ -157,8 +162,8 @@ FadeToBlackPhrase [kFade kto kblack TimeSpan] = [[\n["fadeout",~{TimeSpan}],]]
 JumpPhrase [kJump ChapterName] = [[\n["jump","~{ChapterName}"],]]
 lex_spoken [speaker spoken] = [[\n["say","~{speaker}~{spoken}"],]]
 speaker [speakerSpaces name] = [[~{speakerSpaces}~{name}]]
-speakerSpaces_spaces20 [nl spaces] = [[                    ]]
-speakerSpaces_tabtabspaces4 [nl tab1 tab2 spaces4] = [[                    ]]
+speakerSpaces_spaces20 [spaces] = [[                    ]]
+speakerSpaces_tabtabspaces4 [tab1 tab2 spaces4] = [[                    ]]
 
 Coordinate [number1 kx number2] = [[~{number1},~{number2}]]
 TimeSpan [kover number kframes] = [[~{number}]]
@@ -173,6 +178,9 @@ nameFirst [letter] = [[~{letter}]]
 nameRest [c] = [[~{c}]]
 number [@kminus @digit] = [[~{kminus}~{digit}]]
 
+nls [@cs] = [[]]
+nl [c] = [[~{c}]]
+tab [c] = [[~{c}]]
 period [c] = [[]]
 separator [c] = [[]]
 
@@ -189,8 +197,8 @@ FadeToBlackPhrase [kFade kto kblack TimeSpan] = [[\n(fadeout ~{TimeSpan})]]
 JumpPhrase [kJump ChapterName] = [[\n(jump "~{ChapterName}")]]
 lex_spoken [speaker spoken] = [[\n["say","~{speaker}~{spoken}"]]
 speaker [speakerSpaces name] = [[~{speakerSpaces}~{name}]]
-speakerSpaces_spaces20 [nl spaces] = [[                    ]]
-speakerSpaces_tabtabspaces4 [nl tab1 tab2 spaces4] = [[                    ]]
+speakerSpaces_spaces20 [spaces] = [[                    ]]
+speakerSpaces_tabtabspaces4 [tab1 tab2 spaces4] = [[                    ]]
 
 Coordinate [number1 kx number2] = [[~{number1} ~{number2}]]
 TimeSpan [kover number kframes] = [[~{number}]]
@@ -205,6 +213,9 @@ nameFirst [letter] = [[~{letter}]]
 nameRest [c] = [[~{c}]]
 number [@kminus @digit] = [[~{kminus}~{digit}]]
 
+nls [@cs] = [[~{cs}]]
+nl [c] = [[~{c}]]
+tab [c] = [[~{c}]]
 period [c] = [[]]
 separator [c] = [[]]
 

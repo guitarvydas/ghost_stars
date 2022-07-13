@@ -40,8 +40,8 @@ over 300 frames. Wait 150 frames.
 <p id="status" > READY </p>
 <br>
 <button onclick="transpileJSON ()">Transpile<br>to<br>JSON</button>
-<button onclick="transpileLisp ()">Transpile<br>to<br>Lisp</button>
-<button onclick="transpileIdentity ()">Transpile<br>Identity<br>(ignore)</button>
+<!-- <button onclick="transpileLisp ()">Transpile<br>to<br>Lisp</button> -->
+<!-- <button onclick="transpileIdentity ()">Transpile<br>Identity<br>(ignore)</button -->
 <!-- Ohm-JS -->
 <script src="https://unpkg.com/ohm-js@16/dist/ohm.min.js"></script>
 
@@ -256,18 +256,18 @@ separator [c] = [[]]
       }
   }
   
-  function transpileIdentity () {
-      // first step in building a fmt specification: output=input
-      transpile (identityfmt);
-  }
+  // function transpileIdentity () {
+  //     // first step in building a fmt specification: output=input
+  //     transpile (identityfmt);
+  // }
 
   function transpileJSON () {
       transpile (jsonfmt);
   }
   
-  function transpileLisp () {
-      transpile (lispfmt);
-  }
+  // function transpileLisp () {
+  //     transpile (lispfmt);
+  // }
   
 
   function transpilerError (message) {

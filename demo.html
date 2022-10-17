@@ -61,6 +61,15 @@ over 300 frames. Wait 150 frames.
       let transpiled = '';
       let errormessage = '';
       [success, transpiled, errormessage] = transpile (src, 'GhostStars', grammar, fmt, ohm, compilefmt);
+      if (success) {
+      } else {
+	  parserError (errormessage);
+      }
+  }
+
+  function parserError (s) {
+      document.getElementById('status').innerHTML = s.replace (/\n/g, '<BR>');
+  }
   </script>
 </body>
 </html>

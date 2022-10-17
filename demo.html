@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+textarea {
+}
+</style>
+</head>
+<body>
+
+<h1>Transpiler for Ghost Stars (Demo)</h1>
+<p>source:</p>
+<textarea id="src" rows="7" cols="90" placeholder="src" style="background-color:oldlace;">
+❖ Show prolog_bg at 0x-550. Move prolog_bg to 0x0
+over 300 frames. Wait 150 frames.
+
+		    CHEL:NA
+	  The last time I saw
+	  her... She was smiling. As
+	  if she had some secret that
+	  she couldn't wait to tell me.
+	  
+	  And then, in a sudden wash of
+	  red, she was gone.
+	  
+	  Gone as if she had never stood
+	  beneath the uncaring stars.
+
+❖ Fade Out. Jump INTRO.
+</textarea>
+
+
+<p>output:</p>
+<textarea id="output" rows="15" cols="150" placeholder="transpiled"  readonly style="background-color:whitesmoke;">
+</textarea>
+<!-- <textarea id="temp" rows="15" cols="50" placeholder="transpiled"  readonly style="background-color:whitesmoke;"> -->
+<!-- </textarea> -->
+<br>
+<br>
+<p id="status" > READY </p>
+<br>
+<button onclick="transpileJSON ()">Transpile to JSON</button>
+
+<!-- Ohm-JS -->
+<script src="https://unpkg.com/ohm-js@16/dist/ohm.min.js"></script>
+
+
+<!-- Macro preprocessor -->
+<script src="fmt-js/fmt-js.js"></script>
+<script src="fmt-js/transpile.js"></script>
+
+<!-- Pattern Matching Specification (AKA "grammar") -->
+<script src="ghost_stars_ohm.js"></script>
+
+<!-- Transpilation Specification (AKA "semantics" (subset)) -->
+<script src="ghost_stars_fmt.js"></script>
+
+<script>
+  function transpileJSON () {
+      let success = false;
+      let transpiled = '';
+      let errormessage = '';
+      [success, transpiled, errormessage] = transpile (src, 'GhostStars', grammar, fmt, ohm, compilefmt);
+  </script>
+</body>
+</html>
+
+

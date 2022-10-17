@@ -1,9 +1,0 @@
-Ghost_Stars {
-ShowPhrase = "Show" filename "at" Coordinate
-Coordinate = number "x" number
-number = "-"? digit+
-filename = name
-name = nameFirst nameRest*
-nameFirst = letter
-nameRest = "_" | digit | nameFirst
-}

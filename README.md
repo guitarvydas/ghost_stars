@@ -1,3 +1,11 @@
+# obsolete - see fmt-js/ghoststars instead
+
+######
+
+
+
+
+
 # ghost_stars
 
 Transpile a dungeon-like DSL to JSON
